@@ -10,61 +10,54 @@ import {
 
 import { AuthorsEntity } from './authors.entity';
 
-@Entity('books',{schema: 'libros'})
-  
+@Entity({ name: 'books', schema: 'libros' })
   export class BooksEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-  @CreateDateColumn({
-      name: 'create_at',
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+  
+    @CreateDateColumn({
+      name: 'created_at',
       type: 'timestamp',
       default: () => 'CURRENT_TIMESTAMP',
-  })
-  create_at: Date;
-  @UpdateDateColumn({
-      name: 'update_at',
+    })
+    created_at: Date;
+  
+    @UpdateDateColumn({
+      name: 'updated_at',
       type: 'timestamp',
       default: () => 'CURRENT_TIMESTAMP',
-  })
-  updateAt: Date;
-  @DeleteDateColumn({
-      name: 'update_at',
+    })
+    updated_at: Date;
+  
+    @DeleteDateColumn({
+      name: 'deleted_at',
       type: 'timestamp',
       nullable: true,
-  })
-  deleteAT: Date;
+    })
+    deleted_at: Date;
   
+    @ManyToMany(() => AuthorsEntity, authors => authors.books)
+    authors: AuthorsEntity[];
   
-  @ManyToMany(() => BooksEntity, authors => authors.books )
-  books:AuthorsEntity[];
-  
-  
-  
-  
-  @Column ('varchar', { 
+    @Column('varchar', {
       name: 'name',
       nullable: false,
-      comment: 'users name',
-  })
-  name: string;
+      comment: 'author name',
+    })
+    name: string;
   
-  @Column ('varchar', { 
+    @Column('integer', {
       name: 'age',
       nullable: false,
-      comment: 'Age authors',
-  })
-  Age: number;
+      comment: 'author age',
+    })
+    age: number;
   
-  @Column ('varchar', { 
+    @Column('varchar', {
       name: 'phone',
       nullable: true,
-      comment: 'Phone authors',
-  })
-  phone: number;
-    
-  
-  
-  
-  
-    }
+      comment: 'author phone',
+    })
+    phone: string;
+  }
 

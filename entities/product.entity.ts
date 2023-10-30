@@ -1,6 +1,4 @@
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -12,60 +10,60 @@ import {
 
 import { CategoryEntity } from './category.entity';
 
-@Entity('products',{schema: 'ventas'})
+@Entity({ name: 'products', schema: 'ventas' })
+  export class ProductEntity {
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+  
+    @CreateDateColumn({
+      name: 'created_at',
+      type: 'timestamp',
+      default: () => 'CURRENT_TIMESTAMP',
+    })
+    created_at: Date;
+  
+    @UpdateDateColumn({
+      name: 'updated_at',
+      type: 'timestamp',
+      default: () => 'CURRENT_TIMESTAMP',
+    })
+    updated_at: Date;
+  
+    @DeleteDateColumn({
+      name: 'deleted_at',
+      type: 'timestamp',
+      nullable: true,
+    })
+    deleted_at: Date;
+  
+    @ManyToOne(() => CategoryEntity, category => category.products)
+    category: CategoryEntity;
+  
+    @Column('varchar', {
+      name: 'title',
+      nullable: false,
+      comment: 'product name',
+    })
+    title: string;
+  
+    @Column('decimal', {
+      name: 'price',
+      nullable: false,
+      comment: 'product price',
+      precision: 10,
+      scale: 2,
+    })
+    price: number;
+  
+    @Column('varchar', {
+      name: 'description',
+      nullable: true,
+      comment: 'product description',
+    })
+    description: string;
+  
 
-export class ProductEntity {
-@PrimaryGeneratedColumn('uuid')
-id: string;
-@CreateDateColumn({
-    name: 'create_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-})
-crate_at: Date;
-@UpdateDateColumn({
-    name: 'update_at',
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-})
-updateAt: Date;
-@DeleteDateColumn({
-    name: 'update_at',
-    type: 'timestamp',
-    nullable: true,
-})
-deleteAT: Date;
-
-
-
-@ManyToOne (() => CategoryEntity, category => category.products)
-category:CategoryEntity;
-
-
-
-@Column ('varchar', { 
-    name: 'title',
-    nullable: false,
-    comment: 'product name',
-})
-title: string;
-
-@Column ('number', { 
-    name: 'price',
-    nullable: false,
-    comment: 'product price',
-})
-price: number;
-
-@Column ('varchar', { 
-    name: 'description',
-    nullable: true,
-    comment: 'product description',
-})
-description: string;
-    password: any;
-
-@BeforeInsert()
+/* @BeforeInsert()
 @BeforeUpdate()
 async setTitle(){
     if(!this.title){
@@ -107,4 +105,5 @@ async setDescription(){
 capitalizeFirstLetter(str){
     return str.charAt(0).toUpperCase() + str.slice(1);
 }*/
+
 }
